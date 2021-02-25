@@ -1,0 +1,53 @@
+version: '3.5'
+services:
+  issue_api_db:
+    container_name: 'issue_api_db'
+    image: postgres:11.7-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+
+  issue_api_web:
+    container_name: 'issue_api_web'
+    user: $DOCKER_UID:$DOCKER_GID
+    build:
+      dockerfile: ./docker/development/Dockerfile
+      context: .
+      args:
+        UID: $DOCKER_UID
+        GID: $DOCKER_GID
+        UNAME: $USER
+    tty: true
+    stdin_open: true
+    environment:
+      RAILS_ENV: development
+    volumes:
+      - .:/workspace/myapp:cached
+      - ./docker/development/database.yml:/workspace/myapp/config/database.yml:cached
+    depends_on:
+      - issue_api_db
+    ports:
+      - '3001:3001'
+    # entrypoint: /bin/bash
+    entrypoint: |
+      bash -e -c "
+      sudo chown -R $USER /workspace/myapp
+
+      # Remove a potentially pre-existing server.pid for Rails.
+      rm -f ./tmp/pids/server.pid
+      rm -rf ./tmp/*
+      mkdir -p ./tmp/pids
+      touch tmp/pids/.keep
+
+      bundle install
+      bundle exec rails db:create db:migrate
+      # bundle exec rails db:seed_fu
+      bundle exec rails s -p 3001 -b 0.0.0.0
+      "
+
+
+volumes:
+  db-data:

@@ -1,0 +1,17 @@
+development:
+    adapter: postgresql
+    encoding: utf8
+    pool: 5
+    username: postgres
+    password: postgres
+    host: issue_api_db
+    database: issue_api_development
+  
+test:
+    adapter: postgresql
+    encoding: utf8
+    pool: 5
+    username: postgres
+    password: postgres
+    host: issue_api_db
+    database: issue_api_test
