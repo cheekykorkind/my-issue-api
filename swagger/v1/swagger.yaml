@@ -1,0 +1,19 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/auths":
+    get:
+      summary: User list
+      tags:
+      - Users
+      responses:
+        '200':
+          description: user list found
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3001
