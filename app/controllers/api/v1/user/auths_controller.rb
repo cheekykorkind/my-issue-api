@@ -18,7 +18,7 @@ class Api::V1::User::AuthsController < Api::V1::User::ApplicationController
   
   def update
     @tmp[:action] = "update action"
-    render json: { status: 'SUCCESS', message: 'It is for you', data: @tmp }
+    @myuser = { status: 'SUCCESS', message: 'It is for you', data: @tmp }
   end
 
   def detail

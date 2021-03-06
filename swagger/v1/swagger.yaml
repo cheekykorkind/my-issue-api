@@ -12,6 +12,63 @@ paths:
       responses:
         '200':
           description: user list found
+    post:
+      summary: Create User
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: user created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+  "/api/v1/auths/{user_code}":
+    put:
+      summary: Update user
+      tags:
+      - Users
+      parameters:
+      - name: user_code
+        in: path
+        description: user code
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: update success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+    delete:
+      summary: Delete User
+      tags:
+      - Users
+      parameters:
+      - name: user_code
+        in: path
+        description: user code
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: delete success
 servers:
 - url: http://{defaultHost}
   variables:
