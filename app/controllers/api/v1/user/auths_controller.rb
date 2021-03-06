@@ -3,17 +3,17 @@ class Api::V1::User::AuthsController < Api::V1::User::ApplicationController
 
   def index
     @tmp[:action] = "index action"
-    render json: { status: 'SUCCESS', message: 'It is for you', data: @tmp }
+    @myuser = { status: 'SUCCESS', message: 'It is for you', data: @tmp }
   end
 
   def create
     @tmp[:action] = "create action"
-    render json: { status: 'SUCCESS', message: 'It is for you', data: @tmp }
+    @myuser = { status: 'SUCCESS', message: 'It is for you', data: @tmp }
+    render status: :created
   end
   
   def destroy
-    @tmp[:action] = "destroy action"
-    render json: { status: 'SUCCESS', message: 'It is for you', data: @tmp }
+    render status: :no_content, json: ''
   end
   
   def update

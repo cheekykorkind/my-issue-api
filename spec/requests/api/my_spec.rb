@@ -1,52 +1,61 @@
 require 'swagger_helper'
 
 describe 'Users API', type: :request do
-
-  # /api/v1/auths
   path '/api/v1/auths' do
-
     get 'User list' do
+      tags 'Users'
+      consumes 'application/json'
+      produces 'application/json'
+
+      response '200', 'user list found' do
+        run_test! do
+          expect(JSON.parse(response.body)["data"]["action"]).to eq "index action"
+        end
+      end
+    end
+
+    post 'Create User' do
+      tags 'Users'
+      consumes 'application/json'
+      produces 'application/json'
+
+      parameter name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          name: { type: :string }
+        },
+        required: ['name']
+      }
+
+      response '201', 'user created' do
+        let(:user) { { name: 'iam_new' } }
+        run_test! do
+          expect(JSON.parse(response.body)["data"]["action"]).to eq "create action"
+        end
+      end
+    end
+
+
+
+  end
+
+  path '/api/v1/auths/{user_code}' do
+    let(:user_code) { "user-0001" }
+
+    delete 'Delete User' do
       tags 'Users'
 
       consumes 'application/json'
       produces 'application/json'
-      
 
-      response '200', 'user list found' do
-        run_test! do
-          expect(1).to eq 1
-        end
+      parameter name: :user_code, in: :path, type: :string, description: 'user code'
+
+      response '204', 'delete success' do
+        run_test!
       end
-
     end
   end
 
-
-  # path '/blogs' do
-
-  #   post 'Creates a blog' do
-  #     tags 'Blogs'
-  #     consumes 'application/json'
-  #     parameter name: :blog, in: :body, schema: {
-  #       type: :object,
-  #       properties: {
-  #         title: { type: :string },
-  #         content: { type: :string }
-  #       },
-  #       required: [ 'title', 'content' ]
-  #     }
-
-  #     response '201', 'blog created' do
-  #       let(:blog) { { title: 'foo', content: 'bar' } }
-  #       run_test!
-  #     end
-
-  #     response '422', 'invalid request' do
-  #       let(:blog) { { title: 'foo' } }
-  #       run_test!
-  #     end
-  #   end
-  # end
 
   # path '/blogs/{id}' do
 
