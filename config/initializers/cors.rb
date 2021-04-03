@@ -14,3 +14,19 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
+
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    case Rails.env
+    when 'development'
+      origins 'localhost:3000', '192.168.33.15:3000'
+    when 'test'
+      origins 'localhost:3000', '192.168.33.15:3000'
+    end
+
+    resource '*',
+             headers: :any,
+             methods: %i[get post put patch delete options head],
+             credentials: true
+  end
+end

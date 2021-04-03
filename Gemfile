@@ -32,6 +32,9 @@ gem 'rswag-api'
 gem 'rswag-ui'
 gem 'seed-fu'
 
+gem 'devise'
+gem "rails_same_site_cookie", "~> 0.1.8"
+
 group :development, :test do
   gem 'pry-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
