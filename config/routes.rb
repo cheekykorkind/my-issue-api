@@ -4,12 +4,12 @@ Rails.application.routes.draw do
       devise_for :users, :controllers => {
         :sessions => 'users/sessions',
         :registrations => 'users/registrations',
-      } 
-      devise_scope :user do
-        post "sign_up",   :to => "users/registrations#create"
-        delete "sign_up", :to => "users/registrations#destroy"
-        post "sign_in",   :to => "users/sessions#create"
-        get "sign_out",   :to => "users/sessions#destroy" 
+      }
+      devise_scope :api_v1_user do
+        post "users/sign_up",   :to => "users/registrations#create"
+        delete "users/sign_up", :to => "users/registrations#destroy"
+        post "users/sign_in",   :to => "users/sessions#create"
+        get "users/sign_out",   :to => "users/sessions#destroy" 
       end
 
       # scope module: :user do
